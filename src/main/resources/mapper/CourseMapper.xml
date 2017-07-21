@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentdemo.mapper.CourseMapper">
+
+    <resultMap id="stuMap" type="com.example.studentdemo.entity.Course">
+        <id property="id" column="id" jdbcType="INTEGER" />
+    </resultMap>
+
+    <select id="getAllCourses" resultType="java.util.Map">
+        select  st.name as stuname, cl.name as classname, co.subject, co.score
+        from (student st left join class cl on st.cid=cl.id) left join course co on st.id=co.uid
+    </select>
+
+    <!--<select id="getLikeSearchResults" resultType="java.util.Map" parameterType="String">-->
+      <!--select  st.name as stuname, cl.name as classname, co.subject, co.score-->
+      <!--from (student st left join class cl on st.cid=cl.id) left join course co on st.id=co.uid-->
+      <!--where st.name like '%${str}%' or cl.name like '%${str}%' or co.subject like '%${str}%'-->
+    <!--</select>-->
+
+    <select id="getLikeSearchResults" resultType="java.util.Map" parameterType="String">
+        select  st.name as stuname, cl.name as classname, co.subject, co.score
+        from (student st left join class cl on st.cid=cl.id) left join course co on st.id=co.uid
+        where
+        <choose>
+            <when test="method == 'name'">
+                st.name like '%${str}%'
+            </when>
+            <when test="method == 'class'">
+                cl.name like '%${str}%'
+            </when>
+            <otherwise>
+                co.subject like '%${str}%'
+            </otherwise>
+        </choose>
+    </select>
+
+    <delete id="deleteByUid" parameterType="Integer">
+        delete from course where uid=#{id}
+    </delete>
+
+
+</mapper>

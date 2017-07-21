@@ -1,0 +1,12 @@
+//此文件是seajs的配置文件
+seajs.config({
+    alias:{//配置一些别名，可以设置任何js文件或目录的别名
+        "seajs-combo":"seajs/seajs-combo/1.0.1/seajs-combo",
+        "seajs-log":"seajs/seajs-log/1.0.1/seajs-log",
+        "seajs-style":"seajs/seajs-style/1.0.2/seajs-style",
+        "seajs-debug":"seajs/seajs-debug/1.1.1/seajs-debug",
+        jquery:"jquery/1.11.1/jquery.js"
+    },
+    base:"/js",//seajs的目录（除去了）大家好才是真的好大家好防守打法佛挡杀佛怎么样发生的发生的发生的发生的
+    charset:"utf-8"
+});

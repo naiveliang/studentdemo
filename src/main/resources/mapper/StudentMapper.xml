@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.studentdemo.mapper.StudentMapper">
+
+    <resultMap id="stuMap" type="com.example.studentdemo.entity.Student">
+        <id property="id" column="id" jdbcType="INTEGER" />
+        <result property="cid" column="cid" jdbcType="INTEGER" />
+        <result property="name" column="name" jdbcType="VARCHAR" />
+        <result property="age" column="age" jdbcType="VARCHAR" />
+        <result property="sex" column="sex" jdbcType="VARCHAR" />
+        <result property="address" column="address" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+    <select id="isExist" resultType="Integer">
+        select id from student where id=#{id}
+    </select>
+
+    <select id="getStudentById" resultType="java.util.Map" parameterType="Integer">
+        select a.*, b.name as cname from student a,class b where a.id = #{id} and a.cid = b.id
+        <!--select a.*, b.name from student a left join class b on(a.cid=b.id) where id = #{id}-->
+    </select>
+
+    <select id="getAllStudents" resultType="java.util.Map">
+        select a.*, b.name as banji from student a left join class b on(a.cid=b.id)
+    </select>
+
+    <update id="updateStudent" parameterType="StudentBean">
+        UPDATE student
+        <set>
+            <if test="cid!=''">cid=#{cid},</if>
+            <if test="name!=''"> name=#{name},</if>
+            <if test="age!=''"> age=#{age},</if>
+            <if test="sex!=''"> sex=#{sex},</if>
+            <if test="address!=''"> address=#{address}</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <insert id="insertStudent" parameterType="StudentBean">
+        insert into student values(NULL ,#{cid},#{name},#{age},#{sex},#{address})
+    </insert>
+
+    <delete id="deleteStudent" parameterType="Integer">
+        delete from student where id=#{id}
+    </delete>
+
+
+
+</mapper>
